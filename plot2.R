@@ -1,0 +1,21 @@
+#Loading data
+setwd("/Users/rodrigo/R")
+ds <- read.table("./data/household_power_consumption.txt", sep=";", as.is = T, header = T, na.strings = "?", 
+                 colClasses= c("character", "character", "numeric", "numeric", "numeric", "numeric",
+                               "numeric", "numeric", "numeric")
+)
+ds[,"Date"] = as.Date(ds[,"Date"], format = "%d/%m/%Y")
+feb <- ds[(ds$Date >= "2007-02-1" & ds$Date <= "2007-02-02"), ]
+feb <- cbind(DateTime = strptime(paste(feb[,1], feb[,2]), format = "%Y-%m-%d %H:%M:%S"), feb[,3:9])
+
+
+#Plot 2
+png("./exdata-015/Project1/plot2.png", width=480,height=480, units = "px")
+
+
+plot(feb$DateTime, feb$Global_active_power, 
+     ylab = "Global Activie Power (kilowatts)", 
+     xlab = "", 
+     type = "l")
+
+dev.off()
